@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# package version (updated manually)
+pkgver=1.8.19
+
 # Creación carpeta en donde se descargará Arduino IDE y librerías necesarias.
 WORK_DIR=$HOME/.arduino
 if [[ ! -d $WORK_DIR ]]; then
@@ -10,22 +13,22 @@ else
 fi
 
 # Descarga de Arduino IDE y librerías.
-wget https://downloads.arduino.cc/arduino-1.8.9-linux64.tar.xz
+wget https://downloads.arduino.cc/arduino-${pkgver}-linux64.tar.xz
 wget https://raw.githubusercontent.com/pelafustan/robotics/master/{KnightRoboticsLibs_Iroh.tar.xz,NewPing.tar.xz,LiquidCrystal_I2C.tar.xz}
 
 # Instalación Arduino IDE
-tar -xvf 'arduino-1.8.9-linux64.tar.xz'
-USER_A=$USER
-su -c "./arduino-1.8.9/install.sh"
-su -c "usermod -a -G dialout $USER_A"
+tar -xvf 'arduino-${pkgver}-linux64.tar.xz'
+LOCAL_USER=$USER
+su -c "./arduino-${pkgver}/install.sh"
+su -c "usermod -a -G dialout $LOCAL_USER"
 
 # Instalación de librerías.
 LIB_DIR="$HOME/Arduino/libraries/"
 if [[ ! -d $LIB_DIR ]]; then
-       	mkdir -p $LIB_DIR
-        tar xvf LiquidCrystal_I2C.tar.xz $LIB_DIR
-       	tar xvf KnightRoboticsLibs_Iroh_V3.5.tar.xz $LIB_DIR
-       	tar xvf NewPing.tar.xz $LIB_DIR
+  mkdir -p $LIB_DIR
+  tar xvf LiquidCrystal_I2C.tar.xz $LIB_DIR
+  tar xvf KnightRoboticsLibs_Iroh_V3.5.tar.xz $LIB_DIR
+  tar xvf NewPing.tar.xz $LIB_DIR
 else
 	tar xvf LiquidCrystal_I2C.tar.xz -d $LIB_DIR
 	tar xvf KnightRoboticLibs_Iroh_V3.5.tar.xz $LIB_DIR
