@@ -77,7 +77,7 @@ function arduinoInstallation() {
       curl https://downloads.arduino.cc/arduino-"${pkgver}"-linux64.tar.xz --output arduino.tar.xz
       tar xvf arduino.tar.xz
       rm arduino.tar.xz
-      user = $USER
+      user=$USER
       su -c './arduino-"${pkgver}"/install.sh'
       su -c 'usermod -a -G dialout "${user}"'
       echo -e "\nAhora, para que los cambios surtan efecto, cierre sesión por favor...\n"
