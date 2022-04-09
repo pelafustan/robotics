@@ -24,23 +24,26 @@ EOF
 function libInstallation() {
   case $OSTYPE in
     linux-gnu*)
-      LIB_DIR=$HOME/Arduino/libraries/
+      LIB_DIR=$HOME/Arduino/libraries
       if [[ ! -d "${LIB_DIR}" ]]; then
         mkdir -p "${LIB_DIR}" 
       fi
       ;;
     darwin*)
-      LIB_DIR=$HOME/Documents/Arduino/libraries/
+      LIB_DIR=$HOME/Documents/Arduino/libraries
       if [[ ! -d "${LIB_DIR}" ]]; then
         mkdir -p "${LIB_DIR}" 
       fi
       ;;
   esac
-  wget https://raw.githubusercontent.com/pelafustan/robotics/master/{KnightRoboticsLibs_Iroh.tar.xz,NewPing.tar.xz,LiquidCrystal_I2C.tar.xz}
-  tar xvf LiquidCrystal_I2C.tar.xz "${LIB_DIR}" 
-  tar xvf KnightRoboticsLibs_Iroh_V3.5.tar.xz "${LIB_DIR}" 
-  tar xvf NewPing.tar.xz "${LIB_DIR}" 
-  rm *.tar.xz
+  curl https://raw.githubusercontent.com/pelafustan/robotics/master/KnightRoboticsLibs_Iroh.tar.xz --output "${LIB_DIR}"/KnightRoboticsLibs_Iroh.tar.xz
+  curl https://raw.githubusercontent.com/pelafustan/robotics/master/NewPing.tar.xz --output "${LIB_DIR}"/NewPing.tar.xz
+  curl https://raw.githubusercontent.com/pelafustan/robotics/master/LiquidCrystal_I2C.tar.xz --output "${LIB_DIR}"/LiquidCrystal_I2C.tar.xz
+  cd ${LIB_DIR}
+  tar xvf LiquidCrystal_I2C.tar.xz 
+  tar xvf KnightRoboticsLibs_Iroh.tar.xz 
+  tar xvf NewPing.tar.xz 
+  rm "${LIB_DIR}"/*.tar.xz
 }
 
 # function to handle Arduino installation
@@ -100,10 +103,10 @@ function arduinoInstallation() {
 }
 
 if [[ $# -eq 0 ]]; then
-  arduinoInstallation
   libInstallation
+  arduinoInstallation
 elif [[ $# -eq 1 ]]; then
-  while getopts 'hil:' flag; do
+  while getopts 'hil' flag; do
     case "${flag}" in
       h)
         usage
@@ -122,4 +125,3 @@ elif [[ $# -eq 1 ]]; then
 else
   usage
 fi
-
