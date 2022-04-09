@@ -59,7 +59,7 @@ function arduinoInstallation() {
   esac
 
   # do nothing if valid platform not found
-  if [[ "${platform}" == unknown ]]
+  if [[ "${platform}" == unknown ]]; then
     exit 1
   fi
 
@@ -102,7 +102,7 @@ function arduinoInstallation() {
 if [[ $# -eq 0 ]]; then
   arduinoInstallation
   libInstallation
-elif [[ $# -eq 1 ]]
+elif [[ $# -eq 1 ]]; then
   while getopts 'hil:' flag; do
     case "${flag}" in
       h)
